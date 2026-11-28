@@ -10,10 +10,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Bài 3: trích xuất thẻ <img> từ HTML -->
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.61" />
-    <!-- Bài 3: control trình duyệt nhân Edge -->
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2592.51" />
+    <Compile Remove="Lab04_Bai02\**\*.cs" />
+    <Compile Remove="Lab04_Bai03\**\*.cs" />
+    <EmbeddedResource Remove="Lab04_Bai02\**\*" />
+    <EmbeddedResource Remove="Lab04_Bai03\**\*" />
+    <None Remove="Lab04_Bai02\**\*" />
+    <None Remove="Lab04_Bai03\**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="Lab04_Bai02\Lab04_Bai02.csproj" />
+    <ProjectReference Include="Lab04_Bai03\Lab04_Bai03.csproj" />
   </ItemGroup>
 
 </Project>
