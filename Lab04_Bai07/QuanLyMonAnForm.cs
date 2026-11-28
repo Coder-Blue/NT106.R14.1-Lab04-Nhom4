@@ -4,8 +4,6 @@ public partial class QuanLyMonAnForm : Form
 {
     private const int SoDongMoiTrang = 10;
 
-    private static readonly HttpClient HttpAnh = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
-
     private int trangCuaToi = 1;
     private int tongCuaToi = 0;
     private int trangTatCa = 1;
@@ -123,87 +121,29 @@ public partial class QuanLyMonAnForm : Form
     {
         pic.Tag = mon;
         var hinhCu = pic.Image;
-        pic.Image = LayAnhCucBo(mon.TenMonAn);
+        pic.Image = AnhMonAnHelper.LayAnhCucBo(mon.TenMonAn);
         hinhCu?.Dispose();
 
-        if (Uri.TryCreate(mon.HinhAnh, UriKind.Absolute, out var diaChiAnh) &&
-            (diaChiAnh.Scheme == Uri.UriSchemeHttp || diaChiAnh.Scheme == Uri.UriSchemeHttps))
-        {
-            _ = TaiAnhTuXaAsync(pic, diaChiAnh, mon);
-        }
+        _ = TaiAnhTuXaVaoPictureBoxAsync(pic, mon);
     }
 
-    private async Task TaiAnhTuXaAsync(PictureBox pic, Uri diaChiAnh, MonAn mon)
+    private async Task TaiAnhTuXaVaoPictureBoxAsync(PictureBox pic, MonAn mon)
     {
-        try
+        var anh = await AnhMonAnHelper.TaiAnhTuXaAsync(mon);
+        if (anh == null)
         {
-            var duLieu = await HttpAnh.GetByteArrayAsync(diaChiAnh);
-            if (pic.IsDisposed || pic.Tag != mon)
-            {
-                return;
-            }
-
-            using var luong = new MemoryStream(duLieu);
-            using var hinh = Image.FromStream(luong);
-            var anhMoi = new Bitmap(hinh);
-            var hinhCu = pic.Image;
-            pic.Image = anhMoi;
-            hinhCu?.Dispose();
-        }
-        catch
-        {
-            // Giữ ảnh cục bộ nếu ảnh từ API không tải được.
-        }
-    }
-
-    private Image? LayAnhCucBo(string tenMonAn)
-    {
-        var ten = tenMonAn.ToLowerInvariant();
-        string tenFile;
-
-        if (ten.Contains("bún riêu") || ten.Contains("bun rieu"))
-        {
-            tenFile = "bun-rieu.jpg";
-        }
-        else if (ten.Contains("bún thịt") || ten.Contains("bun thit"))
-        {
-            tenFile = "bun-thit-nuong.jpg";
-        }
-        else if (ten.Contains("phở") || ten.Contains("pho"))
-        {
-            tenFile = "pho.jpg";
-        }
-        else if (ten.Contains("cơm tấm") || ten.Contains("com tam"))
-        {
-            tenFile = "com-tam.jpg";
-        }
-        else if (ten.Contains("gỏi cuốn") || ten.Contains("goi cuon"))
-        {
-            tenFile = "goi-cuon.jpg";
-        }
-        else if (ten.Contains("bún") || ten.Contains("bun"))
-        {
-            tenFile = "bun-rieu.jpg";
-        }
-        else
-        {
-            tenFile = "default.png";
+            return;
         }
 
-        var duongDan = Path.Combine(AppContext.BaseDirectory, "hinh-anh", tenFile);
-        if (!File.Exists(duongDan))
+        if (pic.IsDisposed || pic.Tag != mon)
         {
-            duongDan = Path.Combine(AppContext.BaseDirectory, "hinh-anh", "default.png");
+            anh.Dispose();
+            return;
         }
 
-        if (!File.Exists(duongDan))
-        {
-            return null;
-        }
-
-        using var luong = new FileStream(duongDan, FileMode.Open, FileAccess.Read);
-        using var hinh = Image.FromStream(luong);
-        return new Bitmap(hinh);
+        var hinhCu = pic.Image;
+        pic.Image = anh;
+        hinhCu?.Dispose();
     }
 
     private void CapNhatPhanTrangCuaToi()
@@ -377,16 +317,8 @@ public partial class QuanLyMonAnForm : Form
         }
 
         lblThongBao.Text = "Hôm nay ăn: " + mon.TenMonAn;
-        var noiDung =
-            "HÔM NAY ĂN GÌ?\r\n\r\n" +
-            $"Món ăn: {mon.TenMonAn}\r\n" +
-            $"Giá: {mon.Gia:N0} đ\r\n" +
-            $"Địa chỉ: {mon.DiaChi}\r\n" +
-            $"Người đóng góp: {mon.NguoiDongGop}\r\n" +
-            $"Mô tả: {mon.MoTa}\r\n" +
-            $"Hình ảnh: {mon.HinhAnh}";
-
-        MessageBox.Show(this, noiDung, "Hôm nay ăn gì?", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        using var form = new FormMonNgauNhien(mon);
+        form.ShowDialog(this);
     }
 
     private async void btnThem_Click(object sender, EventArgs e)
