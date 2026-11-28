@@ -22,6 +22,8 @@ namespace NT106.R14._1_Lab04_Nhom4.Bai07
             tabControl = new TabControl();
             tabCuaToi = new TabPage();
             dgvCuaToi = new DataGridView();
+            picCuaToi = new PictureBox();
+            lblChiTietCuaToi = new Label();
             btnLamMoiCuaToi = new Button();
             btnXoa = new Button();
             btnRandomCuaToi = new Button();
@@ -30,6 +32,8 @@ namespace NT106.R14._1_Lab04_Nhom4.Bai07
             btnSauCuaToi = new Button();
             tabTatCa = new TabPage();
             dgvTatCa = new DataGridView();
+            picTatCa = new PictureBox();
+            lblChiTietTatCa = new Label();
             btnLamMoiTatCa = new Button();
             btnRandomTatCa = new Button();
             btnTruocTatCa = new Button();
@@ -52,8 +56,10 @@ namespace NT106.R14._1_Lab04_Nhom4.Bai07
             tabControl.SuspendLayout();
             tabCuaToi.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCuaToi).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picCuaToi).BeginInit();
             tabTatCa.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTatCa).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picTatCa).BeginInit();
             tabThem.SuspendLayout();
             SuspendLayout();
             //
@@ -94,6 +100,8 @@ namespace NT106.R14._1_Lab04_Nhom4.Bai07
             // tabCuaToi
             //
             tabCuaToi.BackColor = Color.White;
+            tabCuaToi.Controls.Add(lblChiTietCuaToi);
+            tabCuaToi.Controls.Add(picCuaToi);
             tabCuaToi.Controls.Add(btnSauCuaToi);
             tabCuaToi.Controls.Add(lblTrangCuaToi);
             tabCuaToi.Controls.Add(btnTruocCuaToi);
@@ -120,8 +128,29 @@ namespace NT106.R14._1_Lab04_Nhom4.Bai07
             dgvCuaToi.ReadOnly = true;
             dgvCuaToi.RowHeadersVisible = false;
             dgvCuaToi.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvCuaToi.Size = new Size(1016, 425);
+            dgvCuaToi.Size = new Size(780, 425);
             dgvCuaToi.TabIndex = 0;
+            dgvCuaToi.SelectionChanged += dgvCuaToi_SelectionChanged;
+            //
+            // picCuaToi
+            //
+            picCuaToi.BackColor = Color.FromArgb(240, 240, 240);
+            picCuaToi.BorderStyle = BorderStyle.FixedSingle;
+            picCuaToi.Location = new Point(806, 12);
+            picCuaToi.Name = "picCuaToi";
+            picCuaToi.Size = new Size(222, 200);
+            picCuaToi.SizeMode = PictureBoxSizeMode.Zoom;
+            picCuaToi.TabIndex = 7;
+            picCuaToi.TabStop = false;
+            //
+            // lblChiTietCuaToi
+            //
+            lblChiTietCuaToi.Font = new Font("Segoe UI", 9F);
+            lblChiTietCuaToi.ForeColor = Color.FromArgb(70, 70, 70);
+            lblChiTietCuaToi.Location = new Point(806, 222);
+            lblChiTietCuaToi.Name = "lblChiTietCuaToi";
+            lblChiTietCuaToi.Size = new Size(222, 215);
+            lblChiTietCuaToi.TabIndex = 8;
             //
             // btnLamMoiCuaToi
             //
@@ -211,6 +240,8 @@ namespace NT106.R14._1_Lab04_Nhom4.Bai07
             // tabTatCa
             //
             tabTatCa.BackColor = Color.White;
+            tabTatCa.Controls.Add(lblChiTietTatCa);
+            tabTatCa.Controls.Add(picTatCa);
             tabTatCa.Controls.Add(btnSauTatCa);
             tabTatCa.Controls.Add(lblTrangTatCa);
             tabTatCa.Controls.Add(btnTruocTatCa);
@@ -236,8 +267,29 @@ namespace NT106.R14._1_Lab04_Nhom4.Bai07
             dgvTatCa.ReadOnly = true;
             dgvTatCa.RowHeadersVisible = false;
             dgvTatCa.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvTatCa.Size = new Size(1016, 425);
+            dgvTatCa.Size = new Size(780, 425);
             dgvTatCa.TabIndex = 0;
+            dgvTatCa.SelectionChanged += dgvTatCa_SelectionChanged;
+            //
+            // picTatCa
+            //
+            picTatCa.BackColor = Color.FromArgb(240, 240, 240);
+            picTatCa.BorderStyle = BorderStyle.FixedSingle;
+            picTatCa.Location = new Point(806, 12);
+            picTatCa.Name = "picTatCa";
+            picTatCa.Size = new Size(222, 200);
+            picTatCa.SizeMode = PictureBoxSizeMode.Zoom;
+            picTatCa.TabIndex = 6;
+            picTatCa.TabStop = false;
+            //
+            // lblChiTietTatCa
+            //
+            lblChiTietTatCa.Font = new Font("Segoe UI", 9F);
+            lblChiTietTatCa.ForeColor = Color.FromArgb(70, 70, 70);
+            lblChiTietTatCa.Location = new Point(806, 222);
+            lblChiTietTatCa.Name = "lblChiTietTatCa";
+            lblChiTietTatCa.Size = new Size(222, 215);
+            lblChiTietTatCa.TabIndex = 7;
             //
             // btnLamMoiTatCa
             //
@@ -476,8 +528,10 @@ namespace NT106.R14._1_Lab04_Nhom4.Bai07
             tabControl.ResumeLayout(false);
             tabCuaToi.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvCuaToi).EndInit();
+            ((System.ComponentModel.ISupportInitialize)picCuaToi).EndInit();
             tabTatCa.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvTatCa).EndInit();
+            ((System.ComponentModel.ISupportInitialize)picTatCa).EndInit();
             tabThem.ResumeLayout(false);
             tabThem.PerformLayout();
             ResumeLayout(false);
@@ -491,6 +545,8 @@ namespace NT106.R14._1_Lab04_Nhom4.Bai07
         private TabControl tabControl;
         private TabPage tabCuaToi;
         private DataGridView dgvCuaToi;
+        private PictureBox picCuaToi;
+        private Label lblChiTietCuaToi;
         private Button btnLamMoiCuaToi;
         private Button btnXoa;
         private Button btnRandomCuaToi;
@@ -499,6 +555,8 @@ namespace NT106.R14._1_Lab04_Nhom4.Bai07
         private Button btnSauCuaToi;
         private TabPage tabTatCa;
         private DataGridView dgvTatCa;
+        private PictureBox picTatCa;
+        private Label lblChiTietTatCa;
         private Button btnLamMoiTatCa;
         private Button btnRandomTatCa;
         private Button btnTruocTatCa;

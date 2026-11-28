@@ -4,6 +4,8 @@ public partial class QuanLyMonAnForm : Form
 {
     private const int SoDongMoiTrang = 10;
 
+    private static readonly HttpClient HttpAnh = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
+
     private int trangCuaToi = 1;
     private int tongCuaToi = 0;
     private int trangTatCa = 1;
@@ -65,8 +67,143 @@ public partial class QuanLyMonAnForm : Form
                 mon.DiaChi,
                 mon.NguoiDongGop,
                 mon.MoTa);
-            bang.Rows[chiSo].Tag = mon.Id;
+            bang.Rows[chiSo].Tag = mon;
         }
+
+        if (bang.Rows.Count > 0)
+        {
+            bang.Rows[0].Selected = true;
+            bang.CurrentCell = bang.Rows[0].Cells[0];
+        }
+
+        if (bang == dgvCuaToi)
+        {
+            HienThiChiTiet(dgvCuaToi, picCuaToi, lblChiTietCuaToi);
+        }
+        else if (bang == dgvTatCa)
+        {
+            HienThiChiTiet(dgvTatCa, picTatCa, lblChiTietTatCa);
+        }
+    }
+
+    private void dgvCuaToi_SelectionChanged(object sender, EventArgs e)
+    {
+        HienThiChiTiet(dgvCuaToi, picCuaToi, lblChiTietCuaToi);
+    }
+
+    private void dgvTatCa_SelectionChanged(object sender, EventArgs e)
+    {
+        HienThiChiTiet(dgvTatCa, picTatCa, lblChiTietTatCa);
+    }
+
+    private void HienThiChiTiet(DataGridView bang, PictureBox pic, Label lbl)
+    {
+        var mon = bang.CurrentRow?.Tag as MonAn;
+        if (mon == null)
+        {
+            lbl.Text = string.Empty;
+            pic.Tag = null;
+            var hinhCu = pic.Image;
+            pic.Image = null;
+            hinhCu?.Dispose();
+            return;
+        }
+
+        lbl.Text =
+            $"{mon.TenMonAn}\r\n" +
+            $"Giá: {mon.Gia:N0} đ\r\n" +
+            $"Địa chỉ: {mon.DiaChi}\r\n" +
+            $"Đóng góp: {mon.NguoiDongGop}\r\n\r\n" +
+            mon.MoTa;
+
+        HienThiHinh(pic, mon);
+    }
+
+    private void HienThiHinh(PictureBox pic, MonAn mon)
+    {
+        pic.Tag = mon;
+        var hinhCu = pic.Image;
+        pic.Image = LayAnhCucBo(mon.TenMonAn);
+        hinhCu?.Dispose();
+
+        if (Uri.TryCreate(mon.HinhAnh, UriKind.Absolute, out var diaChiAnh) &&
+            (diaChiAnh.Scheme == Uri.UriSchemeHttp || diaChiAnh.Scheme == Uri.UriSchemeHttps))
+        {
+            _ = TaiAnhTuXaAsync(pic, diaChiAnh, mon);
+        }
+    }
+
+    private async Task TaiAnhTuXaAsync(PictureBox pic, Uri diaChiAnh, MonAn mon)
+    {
+        try
+        {
+            var duLieu = await HttpAnh.GetByteArrayAsync(diaChiAnh);
+            if (pic.IsDisposed || pic.Tag != mon)
+            {
+                return;
+            }
+
+            using var luong = new MemoryStream(duLieu);
+            using var hinh = Image.FromStream(luong);
+            var anhMoi = new Bitmap(hinh);
+            var hinhCu = pic.Image;
+            pic.Image = anhMoi;
+            hinhCu?.Dispose();
+        }
+        catch
+        {
+            // Giữ ảnh cục bộ nếu ảnh từ API không tải được.
+        }
+    }
+
+    private Image? LayAnhCucBo(string tenMonAn)
+    {
+        var ten = tenMonAn.ToLowerInvariant();
+        string tenFile;
+
+        if (ten.Contains("bún riêu") || ten.Contains("bun rieu"))
+        {
+            tenFile = "bun-rieu.jpg";
+        }
+        else if (ten.Contains("bún thịt") || ten.Contains("bun thit"))
+        {
+            tenFile = "bun-thit-nuong.jpg";
+        }
+        else if (ten.Contains("phở") || ten.Contains("pho"))
+        {
+            tenFile = "pho.jpg";
+        }
+        else if (ten.Contains("cơm tấm") || ten.Contains("com tam"))
+        {
+            tenFile = "com-tam.jpg";
+        }
+        else if (ten.Contains("gỏi cuốn") || ten.Contains("goi cuon"))
+        {
+            tenFile = "goi-cuon.jpg";
+        }
+        else if (ten.Contains("bún") || ten.Contains("bun"))
+        {
+            tenFile = "bun-rieu.jpg";
+        }
+        else
+        {
+            tenFile = "default.png";
+        }
+
+        var duongDan = Path.Combine(AppContext.BaseDirectory, "hinh-anh", tenFile);
+        if (!File.Exists(duongDan))
+        {
+            duongDan = Path.Combine(AppContext.BaseDirectory, "hinh-anh", "default.png");
+        }
+
+        if (!File.Exists(duongDan))
+        {
+            return null;
+        }
+
+        using var luong = new FileStream(duongDan, FileMode.Open, FileAccess.Read);
+        using var hinh = Image.FromStream(luong);
+        return new Bitmap(hinh);
     }
 
     private void CapNhatPhanTrangCuaToi()
@@ -185,15 +322,16 @@ public partial class QuanLyMonAnForm : Form
 
     private async void btnXoa_Click(object sender, EventArgs e)
     {
-        if (dgvCuaToi.CurrentRow == null || dgvCuaToi.CurrentRow.Tag == null)
+        var monDangChon = dgvCuaToi.CurrentRow?.Tag as MonAn;
+        if (monDangChon == null)
         {
             MessageBox.Show(this, "Hãy chọn món ăn cần xóa.", "Thông báo",
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return;
         }
 
-        var id = Convert.ToInt32(dgvCuaToi.CurrentRow.Tag);
-        var tenMon = dgvCuaToi.CurrentRow.Cells[0].Value?.ToString() ?? "";
+        var id = monDangChon.Id;
+        var tenMon = monDangChon.TenMonAn;
         if (MessageBox.Show(this, "Xóa món \"" + tenMon + "\"?", "Xác nhận",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
         {
