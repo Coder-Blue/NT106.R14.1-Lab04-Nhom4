@@ -33,6 +33,8 @@
             lblHuongDan = new Label();
             btnBai02 = new Button();
             btnBai03 = new Button();
+            btnBai04 = new Button();
+            btnBai07 = new Button();
             SuspendLayout();
             //
             // lblTieuDe
@@ -104,6 +106,42 @@
             btnBai03.UseVisualStyleBackColor = false;
             btnBai03.Click += btnBai03_Click;
             //
+            // btnBai04
+            //
+            btnBai04.BackColor = Color.FromArgb(51, 122, 183);
+            btnBai04.Cursor = Cursors.Hand;
+            btnBai04.FlatAppearance.BorderSize = 0;
+            btnBai04.FlatAppearance.MouseDownBackColor = Color.FromArgb(40, 96, 145);
+            btnBai04.FlatAppearance.MouseOverBackColor = Color.FromArgb(64, 138, 204);
+            btnBai04.FlatStyle = FlatStyle.Flat;
+            btnBai04.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+            btnBai04.ForeColor = Color.White;
+            btnBai04.Location = new Point(150, 345);
+            btnBai04.Name = "btnBai04";
+            btnBai04.Size = new Size(300, 112);
+            btnBai04.TabIndex = 5;
+            btnBai04.Text = "Bài 04\nQuản lý phòng vé";
+            btnBai04.UseVisualStyleBackColor = false;
+            btnBai04.Click += btnBai04_Click;
+            //
+            // btnBai07
+            //
+            btnBai07.BackColor = Color.FromArgb(51, 122, 183);
+            btnBai07.Cursor = Cursors.Hand;
+            btnBai07.FlatAppearance.BorderSize = 0;
+            btnBai07.FlatAppearance.MouseDownBackColor = Color.FromArgb(40, 96, 145);
+            btnBai07.FlatAppearance.MouseOverBackColor = Color.FromArgb(64, 138, 204);
+            btnBai07.FlatStyle = FlatStyle.Flat;
+            btnBai07.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+            btnBai07.ForeColor = Color.White;
+            btnBai07.Location = new Point(530, 345);
+            btnBai07.Name = "btnBai07";
+            btnBai07.Size = new Size(300, 112);
+            btnBai07.TabIndex = 6;
+            btnBai07.Text = "Bài 07\nHôm nay ăn gì?";
+            btnBai07.UseVisualStyleBackColor = false;
+            btnBai07.Click += btnBai07_Click;
+            //
             // NavigationMenu
             //
             AcceptButton = btnBai02;
@@ -111,6 +149,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(980, 540);
+            Controls.Add(btnBai07);
+            Controls.Add(btnBai04);
             Controls.Add(btnBai03);
             Controls.Add(btnBai02);
             Controls.Add(lblHuongDan);
@@ -131,5 +171,7 @@
         private Label lblHuongDan;
         private Button btnBai02;
         private Button btnBai03;
+        private Button btnBai04;
+        private Button btnBai07;
     }
 }
