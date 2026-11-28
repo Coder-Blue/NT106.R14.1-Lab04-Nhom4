@@ -12,15 +12,23 @@
   <ItemGroup>
     <Compile Remove="Lab04_Bai02\**\*.cs" />
     <Compile Remove="Lab04_Bai03\**\*.cs" />
+    <Compile Remove="Lab04_Bai04\**\*.cs" />
+    <Compile Remove="Lab04_Bai07\**\*.cs" />
     <EmbeddedResource Remove="Lab04_Bai02\**\*" />
     <EmbeddedResource Remove="Lab04_Bai03\**\*" />
+    <EmbeddedResource Remove="Lab04_Bai04\**\*" />
+    <EmbeddedResource Remove="Lab04_Bai07\**\*" />
     <None Remove="Lab04_Bai02\**\*" />
     <None Remove="Lab04_Bai03\**\*" />
+    <None Remove="Lab04_Bai04\**\*" />
+    <None Remove="Lab04_Bai07\**\*" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="Lab04_Bai02\Lab04_Bai02.csproj" />
     <ProjectReference Include="Lab04_Bai03\Lab04_Bai03.csproj" />
+    <ProjectReference Include="Lab04_Bai04\Lab04_Bai04.csproj" />
+    <ProjectReference Include="Lab04_Bai07\Lab04_Bai07.csproj" />
   </ItemGroup>
 
 </Project>
