@@ -1,6 +1,6 @@
 ﻿namespace NT106.R14._1_Lab04_Nhom4
 {
-    partial class FormChinh
+    partial class NavigationMenu
     {
         /// <summary>
         ///  Required designer variable.
@@ -104,7 +104,7 @@
             btnBai03.UseVisualStyleBackColor = false;
             btnBai03.Click += btnBai03_Click;
             //
-            // FormChinh
+            // NavigationMenu
             //
             AcceptButton = btnBai02;
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -118,9 +118,9 @@
             Controls.Add(lblTieuDe);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
-            Name = "FormChinh";
+            Name = "NavigationMenu";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Lab 04 - NT106.R14.1 - Nhóm 4";
+            Text = "NT106.R14.1-Lab04-Nhom4";
             ResumeLayout(false);
         }
 
