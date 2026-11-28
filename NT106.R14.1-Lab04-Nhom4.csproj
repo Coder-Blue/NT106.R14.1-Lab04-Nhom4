@@ -9,4 +9,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <!-- Bài 3: trích xuất thẻ <img> từ HTML -->
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.61" />
+    <!-- Bài 3: control trình duyệt nhân Edge -->
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2592.51" />
+  </ItemGroup>
+
 </Project>
