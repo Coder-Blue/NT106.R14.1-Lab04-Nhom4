@@ -3,12 +3,12 @@ using NT106.R14._1_Lab04_Nhom4.Bai03;
 
 namespace NT106.R14._1_Lab04_Nhom4;
 
-public partial class FormChinh : Form
+public partial class NavigationMenu : Form
 {
     private Bai02Form? bai02Form;
     private Bai03Form? bai03Form;
 
-    public FormChinh() => InitializeComponent();
+    public NavigationMenu() => InitializeComponent();
 
     private void btnBai02_Click(object sender, EventArgs e)
     {

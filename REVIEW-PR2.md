@@ -29,7 +29,7 @@ chỗ nào tạo 2 form này. Người dùng mở app chỉ thấy form trắng.
 
 PDF yêu cầu: "Mỗi project đều có form điều hướng để mở các form liên quan."
 
-**Đã sửa:** thêm `FormChinh` (menu 2 bài), đổi `Program.cs` chạy `FormChinh`.
+**Đã sửa:** thêm `NavigationMenu` (menu 2 bài), đổi `Program.cs` chạy `NavigationMenu`.
 
 ### 2.2. Sai cấu trúc project so với PDF
 
@@ -158,7 +158,7 @@ comment, thêm resx, sửa `.csproj.user`, cập nhật README.
 | Yêu cầu | Trạng thái |
 |---|---|
 | Mỗi bài 1 project trong cùng solution | Đã sửa |
-| Mỗi project có form điều hướng | Đã sửa (`FormChinh`) |
+| Mỗi project có form điều hướng | Đã sửa (`NavigationMenu`) |
 | Giao diện dễ nhìn, đẹp | Đã sửa theo Lab 03 |
 | Code sạch, tên rõ ràng | Đã cải thiện |
 
